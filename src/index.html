@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Eftiell</title>
+
+		<style>  
+ 
+</style>
+	</head>
+	<body>
+		<div id="gameArea">
+			<canvas id="gameCanvas" width="360" height="800"></canvas>
+			<div id="i" cols="4" rows="1"  style="border: none; border-style: none; border-color: transparent; overflow: auto;font-family:Verdana; font-size:50px;"></div>
+			<audio id="song1"></audio>
+			<audio id="clear"></audio>
+
+		</div>
+		<a href="#" onClick="requestFullScreen();" id="click">Click to enter full screen mode</a>
+	</body>
+  <script type="text/javascript">
+function resizeGame() {
+}
+function resizesGame() {
+    var gameArea = document.getElementById('gameArea');
+    var widthToHeight = 32/80;
+    var newWidth = window.innerWidth;
+    var newHeight = window.innerHeight;
+    var newWidthToHeight = newWidth / newHeight;
+    
+    if (newWidthToHeight > widthToHeight) {
+        newWidth = newHeight * widthToHeight;
+        gameArea.style.height = newHeight + 'px';
+        gameArea.style.width = newWidth + 'px';
+    } else {
+        newHeight = newWidth / widthToHeight;
+        gameArea.style.width = newWidth + 'px';
+        gameArea.style.height = newHeight + 'px';
+    }
+    
+    gameArea.style.marginTop = (-newHeight / 2) + 'px';
+    gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+    
+    var gameCanvas = document.getElementById('gameCanvas');
+    gameCanvas.width = newWidth;
+    gameCanvas.height = newHeight;
+}
+resizeGame()
+window.addEventListener('resize', resizeGame, false);
+window.addEventListener('orientationchange', resizeGame, false);
+function requestFullScreen() {
+
+  var el = document.body;
+
+  // Supports most browsers and their versions.
+  var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
+  || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+  if (requestMethod) {
+
+    // Native full screen.
+    requestMethod.call(el);
+
+  } else if (typeof window.ActiveXObject !== "undefined") {
+
+    // Older IE.
+    var wscript = new ActiveXObject("WScript.Shell");
+
+    if (wscript !== null) {
+      wscript.SendKeys("{F11}");
+    }
+  }
+}
+/* Compute mouse / touch coordinates on the canvas */
+/* Customizable canvas size */
+let canvas_width = 30;
+let canvas_height = 30;
+
+/* Canvas offsets (changed onresize) */
+let canvas_left = 0;
+let canvas_top = 0;
+
+/* Canvas "real" size (changed onresize) */
+let canvas_real_width = 0;
+let canvas_real_height = 0;
+let down_x = 0
+let down_y = 0
+update_mouse = e => {
+
+  let pointer = {};
+  if(e.changedTouches){
+    pointer = e.changedTouches[0];
+  }
+  else {
+    pointer = e;
+  }
+  
+  return [
+    ~~(((pointer.pageX) - canvas_left) * canvas_width / canvas_real_width),
+    ~~(((pointer.pageY) - canvas_top) * canvas_height / canvas_real_height)
+  ];
+}
+/* Mousedown / touchstart */
+ontouchstart = e => {
+  //onmousedown(e)
+};
+  </script>
+</html>
